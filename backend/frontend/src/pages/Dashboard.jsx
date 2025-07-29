@@ -40,7 +40,7 @@ function Dashboard() {
     console.log("📡 Sending GET request to /api/notes/all"); // Add this line
   
     try {
-      const res = await axios.get("http://localhost:8080/api/notes/all");
+      const res = await axios.get("/api/notes/all");
       setNotes(res.data);
     } catch (err) {
       console.error("❌ Failed to fetch notes:", err);
@@ -63,7 +63,7 @@ function Dashboard() {
     formData.append("type", type);
 
     try {
-      await axios.post("http://localhost:8080/api/notes/upload", formData, {
+      await axios.post("/api/notes/upload", formData, {
         headers: { Authorization: token },
       });
       alert("✅ Uploaded successfully");
@@ -175,7 +175,7 @@ function Dashboard() {
                 <li key={note._id}>
                   <strong>{note.title}</strong> ({note.type}) —{" "}
                   <a
-                    href={`http://localhost:8080/${note.fileUrl}`}
+                    href={`/${note.fileUrl}`}
                     target="_blank"
                     rel="noreferrer"
                   >
