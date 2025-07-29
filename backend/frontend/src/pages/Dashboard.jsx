@@ -40,7 +40,8 @@ function Dashboard() {
     console.log("📡 Sending GET request to /api/notes/all"); // Add this line
   
     try {
-      const res = await axios.get("/api/notes/all");
+     const res = await axios.get("https://collegenotes-1g3p.onrender.com/api/notes/all");
+
       setNotes(res.data);
     } catch (err) {
       console.error("❌ Failed to fetch notes:", err);
@@ -175,12 +176,13 @@ function Dashboard() {
                 <li key={note._id}>
                   <strong>{note.title}</strong> ({note.type}) —{" "}
                   <a
-                    href={`/${note.fileUrl}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    📥 Download PDF
-                  </a>
+  href={`https://collegenotes-1g3p.onrender.com/${note.fileUrl}`}
+  target="_blank"
+  rel="noreferrer"
+>
+  📥 Download PDF
+</a>
+
                 </li>
               ))}
             </ul>
