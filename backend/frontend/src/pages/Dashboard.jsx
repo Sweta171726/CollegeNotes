@@ -48,6 +48,10 @@ function Dashboard() {
     }
   }, []);
   
+  useEffect(() => {
+  fetchNotes();
+}, [fetchNotes]);
+  
 
   const handleUpload = async () => {
     if (!file || !title || !semester || !year || !branch || !type) {
