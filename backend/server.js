@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
@@ -8,31 +9,36 @@ const notesRoutes = require("./routes/notesRoutes");
 
 const app = express();
 
-// 🧪 Add easy testing routes here:
-app.get("/", (req, res) => {
-  res.send("🎉 Backend is running!");
-});
-app.get("/api/auth/signup", (req, res) => {
-  res.send("🚫 Use POST to signup here.");
-});
-
-// Middleware
+// ✅ Middleware
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
-// API routes
+// ✅ API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/notes", notesRoutes);
 
-// Connect to MongoDB and start server
+// ✅ MongoDB Connection
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("MongoDB Connected");
-    app.listen(5001, () => console.log("Server running on port 5001"));
-  })
-  .catch((err) => console.log(err));
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.error("❌ MongoDB Error:", err.message));
+
+// ✅ Serve frontend static files — FIXED ✅
+// Serve static files from the frontend
+app.use(express.static(path.join(__dirname, "frontend", "build")));
+
+// Fix for Express 5 — use named wildcard path
+app.get("/*path", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+});
+
+
+// ✅ Start the server
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
+
+
+
